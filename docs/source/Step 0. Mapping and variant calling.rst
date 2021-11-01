@@ -31,6 +31,7 @@ Create a bowtie2 index
 Map reads to the genome
 -----------------------
 The following must be executed for each sample:
+
 .. code-block:: console
 
     bash bowtie2_16_linux.sh SRR8585991_* fugu &> bt2_SRR8585991_outerr.txt &
@@ -38,6 +39,7 @@ The following must be executed for each sample:
 Call variants using Platypus
 ----------------------------
 The following was run on a SLURM system:
+
 .. code-block:: console
 
     sbatch platypus_all_region_1day.sh 15M_14F_bams.txt GCF_901000725.2_fTakRub1.2_genomic.fna
