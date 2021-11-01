@@ -10,7 +10,7 @@ For all the sequence-based analyses mapped to a reference genome, SNP calling is
 
 Download raw reads from NCBI
 ----------------------------
-Requires `fasterq-dump` from the `SRA-tools` (https://github.com/ncbi/sra-tools)
+Requires ``fasterq-dump`` from the ``SRA-tools`` (https://github.com/ncbi/sra-tools). In my experience, ``fasterq-dump`` can be fairly flakey depending on your system and connection, so this download might need to be repeated multiple times to get all the samples.  You might want to separate out the ``acc_list.txt`` files or add something like ``if [ ! -f ${file}_1.fastq ]`` to the code below to avoid downloading the same file repeatedly.
 
 .. code-block:: console
 
@@ -21,6 +21,7 @@ Download the genome
 .. code-block:: console
 
     wget GCF_901000725.2_fTakRub1.2_genomic.fna.gz
+    gunzip GCF_901000725.2_fTakRub1.2_genomic.fna.gz
 
 Create a bowtie2 index
 ----------------------
@@ -35,6 +36,8 @@ The following must be executed for each sample:
 .. code-block:: console
 
     bash bowtie2_16_linux.sh SRR8585991_* fugu &> bt2_SRR8585991_outerr.txt &
+
+``bowtie2_16_long.sh`` is also included as a reference on SLURM systems.
 
 Call variants using Platypus
 ----------------------------
