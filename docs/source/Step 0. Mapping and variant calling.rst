@@ -41,7 +41,7 @@ The following must be executed for each sample:
 
 Call variants using Platypus
 ----------------------------
-The following was run on a SLURM system:
+Variants are jointly called (all at once) through the use of a bam list (e.g., 15M_14F_bams.txt). The following was run on a SLURM system:
 
 .. code-block:: console
 
