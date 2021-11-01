@@ -12,7 +12,9 @@ Download raw reads from NCBI
 ----------------------------
 Requires `fasterq-dump` from the `SRA-tools` (https://github.com/ncbi/sra-tools)
 
-`for file in $(cat acc_list.txt); do echo $file; date; fasterq-dump $file -e 36; done`
+.. code-block:: console
+
+    for file in $(cat acc_list.txt); do echo $file; date; fasterq-dump $file -e 36; done
 
 Download the genome
 -------------------
