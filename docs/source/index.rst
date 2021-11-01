@@ -3,28 +3,6 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-
-   This is a documentation for CGAP Structural Variant (SV) pipeline ``v2``
-
-   (https://github.com/dbmi-bgm/cgap-sv-pipeline)
-
-   Contents
-   ########
-
-   .. toctree::
-      :hidden:
-
-      self
-
-   .. toctree::
-     :maxdepth: 1
-
-     SV
-     qc
-     news
-
-
-
 SexFindR Workflow Overview
 ==========================
 
