@@ -8,7 +8,7 @@ In the SexFindR paper, we used ``Bowtie2`` (v 2.3.4.3; http://bowtie-bio.sourcef
 
 For all the sequence-based analyses mapped to a reference genome, SNP calling is also required. In the SexFindR paper, we used ``Platypus`` (commit 3e72641; https://github.com/andyrimmer/Platypus) to jointly call SNPs across all samples, and we provide some scripts and configurations for this within the GitHub and below. Again, if you have already called SNPs for your samples using ``GATK`` or another widely-used algorithm, please feel free to use those.
 
-We also filtered the raw ``vcf`` to only include sites that ``PASS`` the quality filters. This requires ``bcftools`` (v1.9; https://github.com/samtools/bcftools). ``vcftools`` is also used to filter for biallelic sites (v0.1.14; https://github.com/vcftools/vcftools). ``filtered_PASS_fugu_14M_13F.vcf`` is included in the GitHub repo, compressed with ``gzip``.
+We also filtered the raw ``vcf`` to only include sites that ``PASS`` the quality filters. This requires ``bcftools`` (v1.9; https://github.com/samtools/bcftools). ``vcftools`` is also used to filter for biallelic sites (v0.1.14; https://github.com/vcftools/vcftools). 
 
 Download raw reads from NCBI
 ----------------------------
