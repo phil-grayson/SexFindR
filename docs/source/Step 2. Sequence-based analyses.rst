@@ -2,11 +2,6 @@
 Step 2. Sequence-based analyses
 ===============================
 
-Fst, SNP Density, GWAS, K-mer
-
-Contents
-########
-
 .. toctree::
    :hidden:
 
