@@ -20,7 +20,7 @@ Download the genome
 -------------------
 .. code-block:: console
 
-    wget GCF_901000725.2_fTakRub1.2_genomic.fna.gz
+    wget https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/901/000/725/GCF_901000725.2_fTakRub1.2/GCF_901000725.2_fTakRub1.2_genomic.fna.gz
     gunzip GCF_901000725.2_fTakRub1.2_genomic.fna.gz
 
 Create a bowtie2 index
