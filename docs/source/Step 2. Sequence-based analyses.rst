@@ -15,7 +15,7 @@ Contents
 .. toctree::
   :maxdepth: 1
 
-  Fst
   SNP Density
+  Fst
   GWAS
   kmerGWAS
