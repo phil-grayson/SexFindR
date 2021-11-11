@@ -4,6 +4,9 @@ Step 1. Coverage-based analysis
 
 To determine if there are large sex-specific regions present in your species of interest, a coverage-based analysis is first carried out.
 
+Running DifCover
+----------------
+
 ``DifCover`` (https://github.com/timnat/DifCover) requires only a single male and single female ``bam`` file aligned to a reference genome.
 
 Example ``DifCover`` command with 1 male (``SRR8585998_1.fastq.bam``) versus 1 female (``SRR8585999_1.fastq.bam``).
@@ -20,3 +23,17 @@ Note that you will need to modify ``run_difcover.sh`` to have a proper path for 
     for file in $(ls *q.bam); do ./samtools_Modaldepth.sh $file; done
 
 Once you have a modal depth for each sample you are interested in, ``AC`` is (modal coverage of sample 2 / modal coverage of sample 1). Of note, I have found that although this works well for some samples, others report a modal depth of 1, which is not helpful for determining ``AC``. In these cases, I have have mixed success simply using the ratio of the ``bam`` file sizes for ``AC``. This can be dialed in after the analysis as well by plotting and examining the center of the distribution (which should lie at 0 for autosomes if ``AC`` is properly set).
+
+Analyzing DifCover Results
+--------------------------
+
+An example output file ``sample1_sample2.ratio_per_w_CC0_a10_A219_b10_B240_v1000_l500.log2adj_1.DNAcopyout`` is included in the GitHub repository alongside the ``R`` script ``Fugu_M98_F99_DifCover.R`` used to generate the figures in the main body of the paper. Given that fugu has only a single SNP that is fixed between males and females, coverage does not produce any outlier windows for this species.
+
+As an example of a species that does exhibit significant differences in depth, the ``DifCover`` plot for chicken is also provided below. The code for chicken can be found in ``Supplemental Code`` on GitHub.
+
+.. image:: images/fugu_difcover.png
+  :width: 500
+.. image:: images/chicken_difcover.png
+  :width: 500
+
+*Figure 2. DifCover fails (top) to identify coverage differences between a single male and single female in the fugu, indicating that there are no large regions of recombination suppression in the fugu genome (and/or suggesting that the fugu sex determining region is very young in evolutionary time). DifCover succeeds (bottom) at identify the Z and W chromosomes in chicken using only information on depth of coverage between a single male and single female*

@@ -14,6 +14,8 @@ Please reach out to Dr. Phil Grayson (``phil.d.grayson <at> gmail.com``) or open
 
 .. image:: images/SexFindR.png
 
+*Figure 1. SexFindR workflow in three steps*
+
 Contents
 ########
 
