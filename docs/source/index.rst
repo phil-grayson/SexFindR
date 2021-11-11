@@ -12,6 +12,8 @@ Commands were run using a combination of SLURM systems and standard Linux server
 
 Please reach out to Dr. Phil Grayson (``phil.d.grayson <at> gmail.com``) or open a GitHub issue if you experience difficulty running any part of the ``SexFindR`` workflow.
 
+.. image:: images/SexFindR.png
+
 Contents
 ########
 
