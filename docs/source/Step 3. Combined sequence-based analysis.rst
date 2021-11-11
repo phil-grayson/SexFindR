@@ -30,6 +30,8 @@ This creates a window-based count of top Fst hits (top 5%) within each 10 kb reg
 
 The SNP Denisty data is already in 10 kb windows from the SNP Density analysis section and is able to be used without modifications outside of ``R``.
 
+With all these scripts and input data, you should be able to recreate this plot from the main manuscript in ``R``.
+
 .. image:: images/FuguSexFindR.png
 
 *Figure 3. SexFindR Step 3 combined results identified the fugu SDR (red dotted line) alongside 4 additional candidate windows (thin black dotted lines), all on NC_042303.1.*

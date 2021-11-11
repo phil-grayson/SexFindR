@@ -21,7 +21,7 @@ SNP_gemma_fugu <- full_join(fugu_SNP_filter_arrange,gemma_window_count_fugu) %>%
 top_SNP_gemma_fugu <- SNP_gemma_fugu %>% filter(GWAScount_rank<=100,SNPdensity_rank<=100)
 
 # now we want Fst
-Fstugu <- read_tsv("~/SexFindR/Step_3/biallelic_fst.weir.fst") %>% replace_na(list(WEIR_AND_COCKERHAM_FST=0)) %>% rename(scaf = CHROM, base=POS) %>% mutate(base=as.numeric(base)) %>% filter(WEIR_AND_COCKERHAM_FST >=0) %>% filter(grepl("NC_",scaf)) %>% filter(scaf != "NC_004299.1")
+Fstugu <- read_tsv("~/SexFindR/Step_3/biallelic_fst.weir.fst.zip") %>% replace_na(list(WEIR_AND_COCKERHAM_FST=0)) %>% rename(scaf = CHROM, base=POS) %>% mutate(base=as.numeric(base)) %>% filter(WEIR_AND_COCKERHAM_FST >=0) %>% filter(grepl("NC_",scaf)) %>% filter(scaf != "NC_004299.1")
 cutoff <- round(nrow(Fstugu)*0.05)
 Fstugu_sort_cut <- head(Fstugu %>% arrange(-WEIR_AND_COCKERHAM_FST), n=cutoff) 
 #write_tsv(path="Fstugu_sort_cut.txt",Fstugu_sort_cut %>% select(scaf,base),col_names = F)
@@ -37,12 +37,6 @@ top_SNP_based_fugu <- all_SNP_based_fugu %>% filter(GWAScount_rank<=100,SNPdensi
 
 ##### --- Fugu only NC_042303.1 --- #####
 scaffold_lengths <- read_tsv("~/SexFindR/Step_3/GCF_901000725.2_fTakRub1.2_genomic.fna.fai", col_names = c("scaf","length")) %>% filter(grepl("NC_",scaf)) %>% filter(scaf != "NC_004299.1") 
-# 95% and 99% outliers
-#quantile(Fstugu$`WEIR_AND_COCKERHAM_FST`, c(0.95, 0.99), na.rm = T)
-#test <- left_join(scaffold_lengths,Fstugu) %>% filter(WEIR_AND_COCKERHAM_FST>=0) %>% filter(scaf == "NC_042303.1")
-#color="dodgerblue" + geom_vline(xintercept = 12708100,linetype="dotted",color="red",size=1) 
-#a <- test %>% ggplot(aes(x=base, y=WEIR_AND_COCKERHAM_FST, color=WEIR_AND_COCKERHAM_FST)) + geom_point() + theme(axis.text.x = element_text(angle = 90)) + labs(x="",color="") + labs(y="Fst (Weir and Cockerham)",color="") + geom_vline(xintercept = 12710000,linetype="dotted",color="red",size=1) + labs(title = "A. Fst")+ geom_vline(xintercept = 9270000,linetype="dotted",color="coral4",size=0.5) + geom_vline(xintercept = 2990000,linetype="dotted",color="coral4",size=0.5) + geom_vline(xintercept = 9290000,linetype="dotted",color="coral4",size=0.5) + geom_vline(xintercept = 10600000,linetype="dotted",color="coral4",size=0.5) + scale_x_continuous(limits = c(0,max(test$base)*1.05), expand = c(0, 0)) +  scale_y_continuous(limits = c(0,max(test$WEIR_AND_COCKERHAM_FST)*1.05), expand = c(0, 0)) + theme_igray() + scale_color_gradient(low = "#e5e5e5",high = "#0072B2")
-#a
 
 x_length = scaffold_lengths %>% filter(scaf=="NC_042303.1")
 
@@ -69,7 +63,7 @@ c <- gemma_window_count_fugu %>% filter(scaf == "NC_042303.1") %>% ggplot(aes(x=
         axis.text.y = element_text(size = 20),  
         axis.title.x = element_text(size = 30, face = "plain"),
         axis.title.y = element_text(size = 25, angle = 90, hjust = .5, vjust = .5, face = "plain"),
-        title = element_text(size=25))
+        title = element_text(size=30))
 
 a/b/c
 ggsave("NC_042303_fugu_sexFindR_results_figure.pdf")
