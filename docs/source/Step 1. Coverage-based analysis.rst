@@ -32,8 +32,6 @@ An example output file ``sample1_sample2.ratio_per_w_CC0_a10_A219_b10_B240_v1000
 As an example of a species that does exhibit significant differences in depth, the ``DifCover`` plot for chicken is also provided below. The code for chicken can be found in ``Supplemental Code`` on GitHub.
 
 .. image:: images/fugu_difcover.png
-  :width: 500
 .. image:: images/chicken_difcover.png
-  :width: 500
 
 *Figure 2. DifCover fails (top) to identify coverage differences between a single male and single female in the fugu, indicating that there are no large regions of recombination suppression in the fugu genome (and/or suggesting that the fugu sex determining region is very young in evolutionary time). DifCover succeeds (bottom) at identify the Z and W chromosomes in chicken using only information on depth of coverage between a single male and single female*
