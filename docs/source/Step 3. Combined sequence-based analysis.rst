@@ -8,6 +8,6 @@ In Step 3, non-overlapping signals from the reference-based methods are converte
 
 Once again, the example code ``Fugu_SexFindR.R`` and necessary input files are included in the GitHub repository in order to run the analysis for fugu and generate the plot in the SexFindR figure in the manuscript.
 
-.. image:: images/SexFindR.png
+.. image:: images/FuguSexFindR.png
 
-Figure 3. SexFindR Step 3 combined results identified the fugu SDR (red dotted line) alongside 4 additional candidate windows (thin black dotted lines), all on NC_042303.1.
+*Figure 3. SexFindR Step 3 combined results identified the fugu SDR (red dotted line) alongside 4 additional candidate windows (thin black dotted lines), all on NC_042303.1.*
