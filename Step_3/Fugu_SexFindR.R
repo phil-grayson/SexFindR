@@ -48,14 +48,29 @@ x_length = scaffold_lengths %>% filter(scaf=="NC_042303.1")
 
 fugu_fst_count <- left_join(scaffold_lengths,Fstugu_window_count) %>% filter(scaf == "NC_042303.1")
 
-a <- fugu_fst_count %>% ggplot(aes(x=base, y=count, color=count)) + geom_point() + theme(axis.text.x = element_text(angle = 90)) + labs(x="",color="") + labs(y="Fst (Weir and Cockerham) outliers per 10k window",color="") + geom_vline(xintercept = 12710000,linetype="dotted",color="red",size=1) + labs(title = "A. Fst")+ geom_vline(xintercept = 9270000,linetype="dotted",color="black",size=0.5) + geom_vline(xintercept = 2990000,linetype="dotted",color="black",size=0.5) + geom_vline(xintercept = 9290000,linetype="dotted",color="black",size=0.5) + geom_vline(xintercept = 10600000,linetype="dotted",color="black",size=0.5) +
+a <- fugu_fst_count %>% ggplot(aes(x=base, y=count, color=count)) + geom_point(size=6) + theme(axis.text.x = element_text(angle = 90)) + labs(x="",color="") + labs(y="Fst (Weir and Cockerham) outliers per 10k window",color="") + geom_vline(xintercept = 12710000,linetype="dotted",color="red",size=1) + labs(title = "A. Fst")+ geom_vline(xintercept = 9270000,linetype="dotted",color="black",size=0.5) + geom_vline(xintercept = 2990000,linetype="dotted",color="black",size=0.5) + geom_vline(xintercept = 9290000,linetype="dotted",color="black",size=0.5) + geom_vline(xintercept = 10600000,linetype="dotted",color="black",size=0.5) +
   scale_x_continuous(n.breaks = 10,labels = scales::comma, limits = c(0,x_length$length), expand = c(0, 0)) +
-  scale_y_continuous(limits = c(0,max(fugu_fst_count$count)*1.05), expand = c(0, 0)) + theme_igray() + scale_color_gradient(low = "#e5e5e5",high = "#0072B2") +theme(legend.position = "none")
+  scale_y_continuous(limits = c(0,max(fugu_fst_count$count)*1.05), expand = c(0, 0)) + theme_igray() + scale_color_gradient(low = "#e5e5e5",high = "#0072B2") +theme(legend.position = "none") + 
+  theme(axis.text.x = element_text(size = 20),
+        axis.text.y = element_text(size = 20),
+        axis.title.y = element_text(size = 25, angle = 90, hjust = .5, vjust = .5, face = "plain"),
+        title = element_text(size=30))
+
 
 mid=0
-b <- fugu_SNP%>% filter(scaf == "NC_042303.1") %>% ggplot(aes(x=base,y=mean_MvF_dif,color=mean_MvF_dif)) +geom_point()+ geom_vline(xintercept = 12710000,linetype="dotted",color="red",size=1)  + labs(x="",color="") + labs(y="10kb SNP Density (Male mean - Female mean)",color="")+ labs(title = "B. SNP Density")+ geom_vline(xintercept = 9270000,linetype="dotted",color="black",size=0.5) + geom_vline(xintercept = 2990000,linetype="dotted",color="black",size=0.5) + geom_vline(xintercept = 9290000,linetype="dotted",color="black",size=0.5) + geom_vline(xintercept = 10600000,linetype="dotted",color="black",size=0.5)+ theme_igray() + scale_x_continuous(n.breaks = 10,labels = scales::comma, limits = c(0,x_length$length), expand = c(0, 0)) + scale_color_gradient2(midpoint=mid, low = "#332288", mid = "#e5e5e5",high = "#332288") +theme(legend.position = "none")
+b <- fugu_SNP%>% filter(scaf == "NC_042303.1") %>% ggplot(aes(x=base,y=mean_MvF_dif,color=mean_MvF_dif)) +geom_point(size=6)+ geom_vline(xintercept = 12710000,linetype="dotted",color="red",size=1)  + labs(x="",color="") + labs(y="10kb SNP Density (Male mean - Female mean)",color="")+ labs(title = "B. SNP Density")+ geom_vline(xintercept = 9270000,linetype="dotted",color="black",size=0.5) + geom_vline(xintercept = 2990000,linetype="dotted",color="black",size=0.5) + geom_vline(xintercept = 9290000,linetype="dotted",color="black",size=0.5) + geom_vline(xintercept = 10600000,linetype="dotted",color="black",size=0.5)+ theme_igray() + scale_x_continuous(n.breaks = 10,labels = scales::comma, limits = c(0,x_length$length), expand = c(0, 0)) + scale_color_gradient2(midpoint=mid, low = "#332288", mid = "#e5e5e5",high = "#332288") +theme(legend.position = "none")+ 
+  theme(axis.text.x = element_text(size = 20),
+        axis.text.y = element_text(size = 20),
+        axis.title.y = element_text(size = 25, angle = 90, hjust = .5, vjust = .5, face = "plain"),
+        title = element_text(size=30))
 
-c <- gemma_window_count_fugu %>% filter(scaf == "NC_042303.1") %>% ggplot(aes(x=base,y=count,color=count)) +geom_point()+ geom_vline(xintercept = 12710000,linetype="dotted",color="red",size=1)  + labs(x="Position (bp) on fugu NC_042303.1",color="") + labs(y="GWAS outliers per 10kb window",color="") + labs(title = "C. Gemma GWAS") + geom_vline(xintercept = 9270000,linetype="dotted",color="black",size=0.5) + geom_vline(xintercept = 2990000,linetype="dotted",color="black",size=0.5) + geom_vline(xintercept = 9290000,linetype="dotted",color="black",size=0.5) + geom_vline(xintercept = 10600000,linetype="dotted",color="black",size=0.5)+ theme_igray() +scale_x_continuous(n.breaks = 10,labels = scales::comma, limits = c(0,x_length$length), expand = c(0, 0))+ scale_color_gradient(low = "#e5e5e5",high = "#882255") +theme(legend.position = "none")
+c <- gemma_window_count_fugu %>% filter(scaf == "NC_042303.1") %>% ggplot(aes(x=base,y=count,color=count)) +geom_point(size=6)+ geom_vline(xintercept = 12710000,linetype="dotted",color="red",size=1)  + labs(x="Position (bp) on fugu NC_042303.1",color="") + labs(y="GWAS outliers per 10kb window",color="") + labs(title = "C. Gemma GWAS") + geom_vline(xintercept = 9270000,linetype="dotted",color="black",size=0.5) + geom_vline(xintercept = 2990000,linetype="dotted",color="black",size=0.5) + geom_vline(xintercept = 9290000,linetype="dotted",color="black",size=0.5) + geom_vline(xintercept = 10600000,linetype="dotted",color="black",size=0.5)+ theme_igray() +scale_x_continuous(n.breaks = 10,labels = scales::comma, limits = c(0,x_length$length), expand = c(0, 0))+ scale_color_gradient(low = "#e5e5e5",high = "#882255") +theme(legend.position = "none")+ 
+  theme(axis.text.x = element_text(size = 20),
+        axis.text.y = element_text(size = 20),  
+        axis.title.x = element_text(size = 30, vjust = -0.5, face = "plain"),
+        axis.title.y = element_text(size = 25, angle = 90, hjust = .5, vjust = .5, face = "plain"),
+        title = element_text(size=30))
 
 a/b/c
-#ggsave("NC_042303_fugu_sexFindR_results_figure.pdf")
+ggsave("NC_042303_fugu_sexFindR_results_figure.pdf")
+ggsave("NC_042303_fugu_sexFindR_results_figure.png")
