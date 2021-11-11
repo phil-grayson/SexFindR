@@ -1,10 +1,10 @@
 library(tidyverse)
 library(ggpubr)
 
-# given the command run for SNP density, we have an easy way to isolate males and females
+# given the command run for SNP density, we have an easy way to isolate males and females. want to load in the individual SNP densities calculated for each individual, get the mean male and mean female SNP Density in that window, run permutation tests to see which windows are significantly different.
 
 # load in the male data:
-setwd("/Users/phil/Desktop/fugu/snpdensity/")
+setwd("~/SexFindR/Step_2/SNP\ Density")
 myFiles <- list.files(pattern="Male*")
 
 # build a backbone
@@ -13,9 +13,10 @@ firstsplit <- strsplit(myFiles[1], "_")
 column_ID <- paste(firstsplit[[1]][1],firstsplit[[1]][2],sep="_")
 backbone.upgrade <- backbone %>% unite(LOCATION,c("CHROM","BIN_START"),sep=":") %>% dplyr::rename(!!column_ID := "VARIANTS/KB") %>% select(-SNP_COUNT)
 
+#loop the other files
+
 for(i in 2:length(myFiles)){
   file <- read_delim(myFiles[i],delim = "\t",col_names = T) 
-  #firstsplit <- strsplit(myFiles[i], "SNP_snpdensity_sorted_no_dups_sorted_trim_")
   firstsplit <- strsplit(myFiles[i], "_")
   column_ID <- paste(firstsplit[[1]][1],firstsplit[[1]][2],sep="_")
   file.upgrade <- file %>% unite(LOCATION,c("CHROM","BIN_START"),sep=":") %>% dplyr::rename(!!column_ID := "VARIANTS/KB") %>% select(-SNP_COUNT)
@@ -34,9 +35,10 @@ firstsplit <- strsplit(myFiles[1], "_")
 column_ID <- paste(firstsplit[[1]][1],firstsplit[[1]][2],sep="_")
 backbone.upgrade <- backbone %>% unite(LOCATION,c("CHROM","BIN_START"),sep=":") %>% dplyr::rename(!!column_ID := "VARIANTS/KB") %>% select(-SNP_COUNT)
 
+#loop the other files
+
 for(i in 2:length(myFiles)){
   file <- read_delim(myFiles[i],delim = "\t",col_names = T) 
-  #firstsplit <- strsplit(myFiles[i], "SNP_snpdensity_sorted_no_dups_sorted_trim_")
   firstsplit <- strsplit(myFiles[i], "_")
   column_ID <- paste(firstsplit[[1]][1],firstsplit[[1]][2],sep="_")
   file.upgrade <- file %>% unite(LOCATION,c("CHROM","BIN_START"),sep=":") %>% dplyr::rename(!!column_ID := "VARIANTS/KB") %>% select(-SNP_COUNT)
@@ -54,10 +56,7 @@ SNPdensity.rows <- SNPdensity
 SNPdensity.rows$base <- as.numeric(as.character(SNPdensity.rows$base))
 SNPdensity.rows <- SNPdensity.rows %>% replace_na(list(Males = 0, Females = 0)) %>% replace(is.na(.), 0)
 
-#write_tsv(SNPdensity.rows,"SNPdensity_rows_fugu.txt")
-#SNPdensity.rows <- read_tsv("SNPdensity_rows_fugu.txt")
-
-# use a subsetter to go back to get the male and female average densities (could have done it before, but will now)
+# use a subsetter to get the male and female average densities 
 male_n <- ncol(SNPdensity.rows[ , grepl( "Male" , names( SNPdensity.rows ) ) ])
 males_true <- bind_cols(SNPdensity.rows %>% select(1:2),SNPdensity.rows[ , grepl( "Male" , names( SNPdensity.rows ) ) ] %>% mutate(mean_Males = rowMeans(.))) %>% select(scaf,base,mean_Males)
 
@@ -69,7 +68,7 @@ table(true_SNPdensity$mean_MvF_dif > 0) #17163
 table(true_SNPdensity$mean_MvF_dif < 0) #15626
 table(true_SNPdensity$mean_MvF_dif == 0) #4351
 
-# below is a check that the same could be done with positional information so that we can do so in our permutations:
+# below is the sanity check that the same could be done with positional information so that we can do so in our permutations:
 
 # given male_n and female_n we should be able to re-calculate the means with position information:
 #males_true_position <- bind_cols(SNPdensity.rows %>% select(1:2),SNPdensity.rows %>% select(3:(male_n+2)) %>% mutate(mean_Males = rowMeans(.))) %>% select(scaf,base,mean_Males)
@@ -98,6 +97,10 @@ true_SNPdensity_position_perm <- full_join(males_perm,females_perm) %>% mutate(m
 
 perm_backbone <- true_SNPdensity_position_perm %>% select(scaf,base,mean_MvF_dif) %>% rename(p1=mean_MvF_dif)
 
+# then we want to run the rest of the loops (since seed wasn't set, your run of this will likely produce a slightly different final file than my own on the GitHub repo, but it should not change the overall results)
+
+#this loop takes maybe 5 minutes to run for 1000 permutations on my iMac. I've written something faster in python for the 100k permutations discussed in the MS, but this output is used for the main SexFindR plot (and the 100k permutations vs these 1000 permutations didn't provide us any new insight for fugu anyway).
+
 for(i in 2:1000){
   perm <- sample(3:length(SNPdensity.rows))
   SNPdensity.rows.perm <- SNPdensity.rows %>% select(1:2,perm)
@@ -108,8 +111,6 @@ for(i in 2:1000){
   perm_backbone <- full_join(perm_backbone,perm_upgrade)
 }
 
-# never write this again - needs to be saved because no see set write_tsv(perm_backbone,"perm_backbone_fugu.txt")
-perm_backbone <- read_tsv("perm_backbone_fugu.txt")
 perm_with_true <- full_join(true_SNPdensity %>% select(scaf,base,mean_MvF_dif),perm_backbone)
 
 perm_with_true_p <- perm_with_true %>% 
@@ -119,9 +120,12 @@ perm_with_true_p <- perm_with_true %>%
 
 #write_tsv(perm_with_true_p,"SNPdensity_perm_with_true_p_fugu.txt")
 
+#for step 3, we only need a few columns out of this file and a subset of the genome, so we'll parse it here to save space on GitHub
+#write_tsv(perm_with_true_p %>% select(scaf,base,mean_MvF_dif,Pvalue), "SNPdensity_SexFindR_Fugu.txt")
+# adding window size for consistency between analyses
 
-# want a look at proportion of scaffold:
-fugu_index <- read_tsv("GCF_901000725.2_fTakRub1.2_genomic.fna.fai",col_names = F) %>% rename(scaf=X1,length=X2)
+# want a look at proportion of scaffold - find the outlier
+fugu_index <- read_tsv("~/SexFindR/Step_3/GCF_901000725.2_fTakRub1.2_genomic.fna.fai",col_names = F) %>% rename(scaf=X1,length=X2)
 
 perm_with_true_p001_snp <- perm_with_true_p %>% filter(Pvalue <= 0.001) 
 count_snp_p001_scaffolds <- perm_with_true_p001_snp %>% select(scaf) %>% count(scaf)

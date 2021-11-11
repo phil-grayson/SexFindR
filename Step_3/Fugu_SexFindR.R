@@ -5,8 +5,8 @@ library(ggthemes)
 
 # SNP density with permutations, remove any that don't have p <= 0.05. sort the windows by p-value first and then by absolute value of the change
 # then provide a rank order 
-fugu_SNP <- read_tsv("~/SexFindR/Step_3/SNPdensity_perm_with_true_p_fugu.txt.zip") %>% select(scaf,base,mean_MvF_dif,Pvalue)
-fugu_SNP_filter <- fugu_SNP %>% filter(grepl("NC_",scaf)) %>% filter(scaf != "NC_004299.1") %>% filter(Pvalue <= 0.05) %>% mutate(base=base+10000) # adding window size for consistency between analyses
+fugu_SNP <- read_tsv("~/SexFindR/Step_2/SNP\ Density/SNPdensity_SexFindR_Fugu.txt") %>% select(scaf,base,mean_MvF_dif,Pvalue)
+fugu_SNP_filter <- fugu_SNP %>% filter(grepl("NC_",scaf)) %>% filter(scaf != "NC_004299.1") %>% filter(Pvalue <= 0.05) %>% mutate(base=base+10000) 
 fugu_SNP_filter_arrange <- fugu_SNP_filter %>% arrange(Pvalue,-abs(mean_MvF_dif)) %>% rownames_to_column() %>% rename(SNPdensity_rank=rowname) %>% mutate(SNPdensity_rank=as.numeric(SNPdensity_rank))
 
 # GWAS. grab top 5% of sites and write them out for downstream python
