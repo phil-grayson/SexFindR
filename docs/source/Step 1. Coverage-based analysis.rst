@@ -2,6 +2,8 @@
 Step 1. Coverage-based analysis
 ===============================
 
+.. image:: images/Step1.png
+
 To determine if there are large sex-specific regions present in your species of interest, a coverage-based analysis is first carried out.
 
 Running DifCover

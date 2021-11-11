@@ -2,6 +2,8 @@
 Step 3. Combined sequence-based analysis
 ========================================
 
+.. image:: images/Step3.png
+
 If your species of interest has a genetic basis for sex determination, but you have not been able to identify a consistent signal within your genomic data using Steps 1 and 2, the scripts for Step 3, Combined sequence-based analysis, should be able to help. If you have not identified a compelling candidate by the end of Step 3, I would suggest that there is not a genetic signal for sex determination in the genomic data you have analyzed, which was the case for sea lamprey (see the main manuscript).
 
 In Step 3, non-overlapping signals from the reference-based methods are converted to 10kb windows and combined to increase the user’s power to focus on specific genomic regions. Once candidate windows are identified in Step 3, the user can return to GWAS, SNP density, and ``Fst`` results to determine if fixed or nearly-fixed differences exist between the sexes in the top candidate windows.

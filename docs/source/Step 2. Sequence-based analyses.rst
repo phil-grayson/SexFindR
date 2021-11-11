@@ -2,6 +2,8 @@
 Step 2. Sequence-based analyses
 ===============================
 
+.. image:: images/Step2.png
+
 .. toctree::
    :hidden:
 
