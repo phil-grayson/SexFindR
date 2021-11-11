@@ -9,18 +9,18 @@ After testing a few other k-mer association algorithms as well as a number of sp
 Directory structure
 -------------------
 
-``kmerGWAS`` requires a specific directory structure and requires a number of individual commands be run in a particular order. This is presented below, but more information can be found in the kmerGWAS manual here (https://github.com/voichek/kmersGWAS/blob/master/manual.pdf).
+``kmerGWAS`` requires a specific directory structure and has many separate steps. These are presented below, but more information can be found in the kmerGWAS manual here (https://github.com/voichek/kmersGWAS/blob/master/manual.pdf).
 
 Generally, you want the following:
 
 1. Files present in a top level directory
 2. Individual directories created within the top level directory corresponding to the base name of each sample (e.g., top level directory contains ``SRR8585991_1.fastq.gz``, ``SRR8585991_2.fastq.gz``, and the ``SRR8585991`` directory)
-3. Within the base name subdirectories, there are execution scripts and an ``input_files.txt`` file that contains the paths to the ``fastq`` files (e.g., ``../SRR8585991_1.fastq.gz`` and ``../SRR8585991_2.fastq.gz`` each on their own line).
+3. Within the base name subdirectories (e.g., ``SRR8585991``), there are execution scripts and an ``input_files.txt`` file that contains the paths to the ``fastq`` files (e.g., ``../SRR8585991_1.fastq.gz`` and ``../SRR8585991_2.fastq.gz`` each on their own line).
 
 Running kmerGWAS
 ----------------
 
-The following is a set of example commands to set up the directory structure for the fugu samples, but these will need to be made specific to your file names, path, etc. Many of these steps were executed on a SLURM system and the execution scripts will need to be modified to match your system as well. This process begins with the ``fastq`` files and the execution scripts in the ``fugu_kmerGWAS`` directory.
+The following is a set of example commands to set up the directory structure for the fugu samples, but these will need to be made specific to your file names, path, etc. Many of these steps were executed on a SLURM system and the execution scripts will need to be modified to match your system as well. This process begins with the ``fastq`` files and one copy of each of the execution scripts in the top level (``fugu_kmerGWAS``) directory. All commands are executed from that top level directory. I have included an example of all necessary text files in the GitHub repository to check against as well.
 
 .. code-block:: console
 
@@ -57,7 +57,7 @@ Example execution scripts are provided to combine the k-mers and create the k-me
     sbatch combine_kmersGWAS.sh
     sbatch create_table_kmersGWAS.sh
 
-Once these steps are completed, we generate ``plink`` binary files using the ``kmers_table_to_bed`` function. The ``phenotype.pheno`` file here contains two tab-delimited columns, ``accession_id`` and ``phenotype_value`` with the sample ID in ``accession_id`` and ``1`` or ``2`` in the ``phenotype value`` column for the male or female phenotype.
+Once these steps are completed, we generate ``plink`` binary files using the ``kmers_table_to_bed`` function. The ``phenotype.pheno`` file here contains two tab-delimited columns, ``accession_id`` and ``phenotype_value`` with the sample ID in ``accession_id`` and ``1`` or ``2`` in the ``phenotype value`` column for the male or female phenotype. ``-b`` here is batch size. Depending on the power of your machine and the number of samples included in your analysis, you might have to produce smaller batches (I ran on a Linux machine with 256 Gb of memory and had to batch other species with more samples). Batches here are the number of k-mers within the analysis for ``plink``.
 
 .. code-block:: console
 
@@ -66,7 +66,7 @@ Once these steps are completed, we generate ``plink`` binary files using the ``k
 Running plink
 -------------
 
-Next, we run these files through ``plink`` to obtain ``p-values`` for each k-mer, representing the association between k-mer presence and phenotypic sex.
+Next, we run these files through ``plink`` to obtain ``p-values`` for each k-mer, representing the association between k-mer presence and phenotypic sex. If you had to batch your k-mers (above), you will also need to execute this command for batch the other batches (e.g., fugu_kmerGWAS_plink.1, fugu_kmerGWAS_plink.2, etc.). Make sure to also append something new to the ``--out`` name (e.g., ``fugu_kmers1``, ``fugu_kmers2``), so that previous results are not overwritten.
 
 .. code-block:: console
 
@@ -77,6 +77,8 @@ The resulting outfile (e.g., ``fugu_kmers.assoc``) can explored and parsed based
 .. code-block:: console
 
     awk '$9 < 0.000000000001' fugu_kmers.assoc > most_significant_fugu_assoc.txt
+
+Results from different batches can be concatenated with ``cat fugu_kmers*.assoc`` or something similar following analysis in ``plink`` (although a simple ``cat`` will also repeat the header line from each batch, so be aware that you will need to take this into account using ``tail`` or parsing the output file from ``cat`` to remove the extra header lines).
 
 Running ABYSS
 -------------
@@ -99,7 +101,7 @@ To generate this file, the following should work:
 
     python plink_to_abyss_kmers.py most_significant_fugu_assoc.txt fugu_plink_abyss_input.txt
 
-If your output does not match the example above, you might need to change the index positions in the python script to correctly grab the k-mer and the p-value columns (given different ``plink`` versions).
+If your output does not match the example above, you might need to change the index positions in the python script to correctly grab the k-mer and the p-value columns (given different ``plink`` versions). This input file is then run through ABYSS to assemble small contigs.
 
 .. code-block:: console
 
@@ -107,6 +109,8 @@ If your output does not match the example above, you might need to change the in
 
 Running blastn
 --------------
+
+If you have a reference genome, you might be interested in where the enriched k-mers map to. The easiest way to check this is through a ``blastn`` analysis.
 
 You first need to create a blastdb:
 
@@ -120,4 +124,4 @@ Then you can run blastn:
 
     blastn -query fugu_plink_abyss_output.txt -db GCF_901000725.2_fTakRub1.2_genomic.fna -outfmt 6
 
-The output file from blastn will provide top candidate regions for each contig that was assembled from the k-mers. In the case of fugu, there are only 4 contigs that all blast to NC_042303.1, but in poplar and the golden monkey, these blast outputs were parsed with an ``R`` script (e.g., ``poplar_kmerGWAS_blast_results.R``) to visualize which genomic regions the sex-assocaited k-mers map to.
+The output file from blastn will provide top candidate regions for each contig that was assembled from the k-mers. In the case of fugu, there are only 4 contigs that all blast to NC_042303.1, but in poplar and the golden monkey, these blast outputs were parsed with an ``R`` script (e.g., ``poplar_kmerGWAS_blast_results.R``) to visualize which genomic regions the sex-assocaited k-mers map to. This script and the necessary input files have been included in the GitHub repo for poplar. 

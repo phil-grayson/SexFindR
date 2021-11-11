@@ -4,7 +4,7 @@ Step 0. Mapping and variant calling
 
 Prior to running Step 1 (Coverage-based analysis) or any of the analyses from Step 2 (Sequence-based analyses) except the reference-free k-mer analysis, you will need to map your reads to a reference genome.
 
-In the SexFindR paper, we used ``Bowtie2`` (v 2.3.4.3; http://bowtie-bio.sourceforge.net/bowtie2/index.shtml) for read mapping and we provide some scripts and configuration for this within the GitHub and below. If you already have mapped reads from ``bwa-mem`` or another widely-used algorithm, please feel free to use those.
+In the SexFindR paper, we used ``Bowtie2`` (v 2.3.4.3; http://bowtie-bio.sourceforge.net/bowtie2/index.shtml) for read mapping and we provide some scripts and configuration for this within the GitHub repo and below. If you already have mapped reads from ``bwa-mem`` or another widely-used algorithm, please feel free to use those.
 
 For all the sequence-based analyses mapped to a reference genome, SNP calling is also required. In the SexFindR paper, we used ``Platypus`` (commit 3e72641; https://github.com/andyrimmer/Platypus) to jointly call SNPs across all samples, and we provide some scripts and configurations for this within the GitHub and below. Again, if you have already called SNPs for your samples using ``GATK`` or another widely-used algorithm, please feel free to use those.
 
@@ -33,7 +33,7 @@ Create a bowtie2 index
 
 Map reads to the genome
 -----------------------
-The following must be executed for each sample:
+For each sample, the reads must be mapped using a command like:
 
 .. code-block:: console
 
@@ -50,8 +50,8 @@ Variants are jointly called (all at once) through the use of a bam list (e.g., 1
     samtools faidx GCF_901000725.2_fTakRub1.2_genomic.fna
     sbatch platypus_all_region_1day.sh 15M_14F_bams.txt GCF_901000725.2_fTakRub1.2_genomic.fna
 
-Filter for calls that PASS quality filters
-------------------------------------------
+Filter for variant calls that PASS quality filters
+--------------------------------------------------
 This script will keep only those variants that have ``PASS`` in the ``FILTER`` field, removing low quality calls.
 
 .. code-block:: console
@@ -60,7 +60,7 @@ This script will keep only those variants that have ``PASS`` in the ``FILTER`` f
 
 Filter for biallelic sites
 --------------------------
-Some downstream analyses (e.g., ``Fst``) require only biallelic sites to work properly (e.g., 0/0, 0/1, 1/1).
+Some downstream analyses (e.g., ``Fst``) require only biallelic sites to work properly (e.g., 0/0, 0/1, 1/1). Execute the following to filter for only biallelic sites:
 
 .. code-block:: console
 

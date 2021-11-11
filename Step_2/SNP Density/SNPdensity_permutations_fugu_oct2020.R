@@ -1,7 +1,7 @@
 library(tidyverse)
 library(ggpubr)
 
-# the data is already split in to males and females
+# the data is already split for males and females
 
 # load in the male data:
 setwd("/Users/phil/Desktop/fugu/snpdensity/")

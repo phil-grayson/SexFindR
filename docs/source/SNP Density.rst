@@ -2,7 +2,7 @@
 SNP Density
 ===========
 
-In nascent sex-linked sequences, we would expect to see differences in overall SNP density between males and females due to Y reads still mapping to the X. This is due to the divergent evolutionary trajectories of the X and Y following recombination suppression on the Y. SNP density can identify regions where male or female-specific SNPs are still segregating within their respective populations.
+In nascent sex-linked sequences, we would expect to see differences in overall SNP density between males and females due to Y reads still mapping to the X (or W to the Z). This is due to the divergent evolutionary trajectories of the X and Y following recombination suppression on the Y. SNP density can identify regions where male or female-specific SNPs are still segregating within their respective populations.
 
 This analysis requires ``vcftools`` and ``R``.
 
