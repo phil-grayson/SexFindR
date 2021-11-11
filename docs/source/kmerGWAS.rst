@@ -61,7 +61,7 @@ Once these steps are completed, we generate ``plink`` binary files using the ``k
 
 .. code-block:: console
 
-    ~/programs/kmerGWAS/bin/kmers_table_to_bed -t kmers_table -k 31 -p phenotype.pheno --maf 0.05 --mac 5 -b 10000000 -o fugu_kmerGWAS_plink
+    ~/programs/kmerGWAS/bin/kmers_table_to_bed -t kmers_table -k 31 -p phenotype.pheno --maf 0.05 --mac 5 -b 1000000000 -o fugu_kmerGWAS_plink
 
 Running plink
 -------------

@@ -10,4 +10,4 @@
 #SBATCH -e combineKWAS.%A.err       # File to which STDERR will be written 
 #SBATCH --account=def-coling
 
-~/programs/kmerGWAS/bin/list_kmers_found_in_multiple_samples -l kmers_clean_list_path.txt -k 31 --mac 5 -p 0.2 -o kmers_to_use
+~/programs/kmerGWAS/bin/list_kmers_found_in_multiple_samples -l final_kmers_clean_list_path.txt -k 31 --mac 5 -p 0.2 -o kmers_to_use
