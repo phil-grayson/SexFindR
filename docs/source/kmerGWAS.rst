@@ -124,4 +124,4 @@ Then you can run blastn:
 
     blastn -query fugu_plink_abyss_output.txt -db GCF_901000725.2_fTakRub1.2_genomic.fna -outfmt 6
 
-The output file from blastn will provide top candidate regions for each contig that was assembled from the k-mers. In the case of fugu, there are only 4 contigs that all blast to NC_042303.1, but in poplar and the golden monkey, these blast outputs were parsed with an ``R`` script (e.g., ``poplar_kmerGWAS_blast_results.R``) to visualize which genomic regions the sex-assocaited k-mers map to. This script and the necessary input files have been included in the GitHub repo for poplar. 
+The output file from blastn will provide top candidate regions for each contig that was assembled from the k-mers. In the case of fugu, there are only 4 contigs that all blast to NC_042303.1, but in poplar and the golden monkey, these blast outputs were parsed with an ``R`` script (e.g., ``poplar_kmerGWAS_blast_results.R``) to visualize which genomic regions the sex-assocaited k-mers map to. This script and the necessary input files have been included in the GitHub repo for poplar.

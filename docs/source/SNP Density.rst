@@ -25,3 +25,5 @@ Here, ``snpDen_males.txt`` and ``snpDen_females.txt`` reference files are simply
 
 Analyzing SNP Density
 ---------------------
+
+SNP density can be analyzed from the ``R`` script ``SNPdensity_permutations_fugu.R``. This file runs the user through reading in the individual SNP densities calculated above, then calculates the true male and female means (and differences) for each 10 kb window, before carrying out a small permutation test. This permutation test generates the p-values that allows us to determine the correct order for SNP Density windows in ``Step 3``. A larger permutation test was carried out for both the lamprey and fugu in the main manuscript to further analyze the SNP Density data. Code and documentation for this test is included in the ``Supplemental Code`` folder on the GitHub repo.
