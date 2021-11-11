@@ -37,3 +37,6 @@ Analysing the output
 --------------------
 
 The commands above will generate ``fugu_gemma_out.assoc`` and ``fugu_gemma_out.log.txt``. The ``.assoc`` file contains the ``GWAS`` results, including the genome position (``rs``) the number of individuals that had a call (``n_obs``) or missing data (``n_mis``) at that site, the allele frequency (``af``), and the ``p-value`` for the likelihood ratio test (``p_lrt``). This file can be searched and parsed to identify the top candidates from this analysis.
+
+.. code-block:: console
+    awk '$9 < 0.00000001' fugu_gemma_out.assoc | less
