@@ -33,7 +33,7 @@ y <- ggdotchart(filtered_proportion,
                 add = "segments", 
                 add.params = list(color = "lightgray", size = 1), 
                 group = "Chromosome", 
-                dot.size = 4 ) 
+                dot.size = 4 ) + theme(axis.text.x=element_blank())
 
 
 y

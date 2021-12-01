@@ -20,7 +20,6 @@ x <- ggscatter(proportion,
                palette = c("#9BA4A9", "#34ADE8", "#8F3ED8"), 
                ylab = "proportion of chromosome",
                size = 2)  + geom_vline(xintercept =0,linetype="dotted")
-x
 
 filtered_proportion <- proportion %>% filter(`log2(Female coverage/Male coverage)` >= 0.7369656 | `log2(Female coverage/Male coverage)` <= -0.7369656) %>% group_by(scaf) %>% mutate("total chromosome proportion with significantly different coverage" = sum(`bases spanned`)/length)
 
@@ -35,6 +34,5 @@ y <- ggdotchart(filtered_proportion,
                 add.params = list(color = "lightgray", size = 1), 
                 group = "Chromosome", 
                 dot.size = 4 ) + theme(axis.text.x=element_blank())
-y
 
 x+y
