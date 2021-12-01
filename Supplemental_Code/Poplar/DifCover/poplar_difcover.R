@@ -39,5 +39,3 @@ y <- ggdotchart(filtered_proportion,
 y
 
 x+y
-
-

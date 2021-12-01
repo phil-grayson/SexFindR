@@ -6,7 +6,7 @@ setwd("~/SexFindR/Supplemental_Code/Chicken/DifCover/")
 
 together <- read_tsv(file = "sample1_sample2.ratio_per_w_CC0_a10_A500_b10_B500_v1000_l500.log2adj_1.222222222.DNAcopyout",col_names = F) %>% rename(scaf=X1,base=X2,stop=X3,windows=X4,"log2(Female coverage/Male coverage)"=X5) %>% mutate("bases spanned" = stop-base) %>% filter(grepl("NC",scaf)) 
 
-scaffold_lengths <- read_tsv("/Users/phil/Google\ Drive/Postdoc/Other_Datasets/Chickens/chick_scaffold_lengths.txt", col_names = c("scaf","length")) %>% filter(grepl("NC",scaf))
+scaffold_lengths <- read_tsv("chick_scaffold_lengths.txt", col_names = c("scaf","length")) %>% filter(grepl("NC",scaf))
 
 proportion <- full_join(together,scaffold_lengths) %>% mutate(Chromosome = ifelse(scaf=="NC_006127.5", "Z", ifelse(scaf=="NC_006126.5", "W", "Autosome"))) %>% mutate(proportion = `bases spanned`/length)
 

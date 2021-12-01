@@ -9,7 +9,7 @@ setwd("~/SexFindR/Supplemental_Code/Cannabis/DifCover/")
 
 together <- read_tsv(file = "sample1_sample2.ratio_per_w_CC0_a10_A500_b10_B500_v1000_l500.log2adj_2.468996284.DNAcopyout",col_names = F) %>% rename(scaf=X1,base=X2,stop=X3,windows=X4,"log2(Female coverage/Male coverage)"=X5) %>% mutate("bases spanned" = stop-base) 
 
-scaffold_lengths <- read_tsv("/Users/phil/Google Drive/Postdoc/Other_Datasets/Cannabis/male_ref/male_ref_scaffold_lengths.txt", col_names = c("scaf","length"))
+scaffold_lengths <- read_tsv("male_ref_scaffold_lengths.txt", col_names = c("scaf","length"))
 
 proportion <- full_join(together,scaffold_lengths) %>% mutate(Chromosome = ifelse(grepl("Y_",scaf), "Y-region", "Autosome")) %>% mutate(proportion = `bases spanned`/length)
 
