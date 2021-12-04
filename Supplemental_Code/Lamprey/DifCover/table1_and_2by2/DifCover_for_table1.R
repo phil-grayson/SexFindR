@@ -1,9 +1,7 @@
 library(tidyverse)
 library(ggpubr)
 
-# This script contains the information required to re-create the data that was provided in Table 1 of the Genomic_Basis_draft_dec2020.docx
-
-setwd("~/Desktop/DifCover_Dec2020_Paper/")
+setwd("~/SexFindR/Supplemental_Code/Lamprey/DifCover/table1_and_2by2/")
 
 ##### --- Fugu --- #####
 # M98 and F99 were run as male over female
@@ -42,6 +40,18 @@ sum(mosquito_all_down$bases_spanned)
 
 mosquito_all %>% filter(scaf == "NC_035107.1") %>% filter(base > 151680000, stop < 152960000)
 
+
+##### --- Poplar --- #####
+# up is male enriched. down is female enriched
+poplar_all <- read_tsv(file = "poplar/sample1_sample2.ratio_per_w_CC0_a10_A219_b10_B240_v1000_l500.log2adj_1.DNAcopyout",col_names = F) %>% rename(scaf=X1,base=X2,stop=X3,windows=X4,"log2(Male coverage/Female coverage)"=X5) %>% mutate("bases_spanned" = stop-base)
+poplar_all_up <- poplar_all %>% filter(`log2(Male coverage/Female coverage)` >= 0.7369656)
+poplar_all_down <- poplar_all %>%  filter(`log2(Male coverage/Female coverage)` <= -0.7369656)
+
+sum(poplar_all$bases_spanned)
+sum(poplar_all_up$bases_spanned)
+sum(poplar_all_down$bases_spanned)
+
+
 ##### --- Cannabis --- #####
 # F23 and M15 were analyzed
 # up is female enriched, down is male enriched
@@ -53,27 +63,6 @@ cannabis_all_down <- cannabis_all %>%  filter(`log2(Male coverage/Female coverag
 sum(cannabis_all$bases_spanned)
 sum(cannabis_all_up$bases_spanned)
 sum(cannabis_all_down$bases_spanned)
-
-##### --- Rumex TX (XY) --- #####
-# currently re-running
-# up is female enrichment, down is male enrichment (column names wrong)
-rumexTX_all <- read_tsv(file = "rumex_TX/sample1_sample2.ratio_per_w_CC0_a10_A219_b10_B240_v1000_l500.log2adj_1.2.DNAcopyout",col_names = F) %>% rename(scaf=X1,base=X2,stop=X3,windows=X4,"log2(Male coverage/Female coverage)"=X5) %>% mutate("bases_spanned" = stop-base)
-rumexTX_all_up <- rumexTX_all %>% filter(`log2(Male coverage/Female coverage)` >= 0.7369656)
-rumexTX_all_down <- rumexTX_all %>%  filter(`log2(Male coverage/Female coverage)` <= -0.7369656)
-
-sum(rumexTX_all$bases_spanned)
-sum(rumexTX_all_up$bases_spanned)
-sum(rumexTX_all_down$bases_spanned)
-##### --- Rumex NC (XYY) --- #####
-# ran F20 over M21
-# up is female enrichment, down is male enrichment (column names wrong)
-rumexNC_all <- read_tsv(file = "rumex_NC/sample1_sample2.ratio_per_w_CC0_a10_A219_b10_B240_v1000_l500.log2adj_1.DNAcopyout",col_names = F) %>% rename(scaf=X1,base=X2,stop=X3,windows=X4,"log2(Male coverage/Female coverage)"=X5) %>% mutate("bases_spanned" = stop-base)
-rumexNC_all_up <- rumexNC_all %>% filter(`log2(Male coverage/Female coverage)` >= 0.7369656)
-rumexNC_all_down <- rumexNC_all %>%  filter(`log2(Male coverage/Female coverage)` <= -0.7369656)
-
-sum(rumexNC_all$bases_spanned)
-sum(rumexNC_all_up$bases_spanned)
-sum(rumexNC_all_down$bases_spanned)
 
 ##### --- Chicken --- #####
 # ran F634 over M635
@@ -89,6 +78,9 @@ sum(chicken_all_down$bases_spanned)
 
 chicken_all %>% filter(scaf == "NC_006126.5") #W
 chicken_all %>% filter(scaf == "NC_006127.5") #Z
+
+
+
 ##### --- Lamprey --- #####
 # F2 over M6
 # up is female enrichment, down is male enrichment
@@ -138,3 +130,4 @@ length(table(lamprey_annotate_together_controlled_down$scaf))
 lamprey_annotate_together_controlled_up <- lamprey_annotate_together %>% filter(F10M6_up >0,F10M8_up>0,F2F10_up==0,F2M6_up>0,F2M8_up>0,M6M8_up==0,F2F10_down==0,M6M8_down==0,down==0,up>0)
 table(lamprey_annotate_together_controlled_up$scaf)
 length(table(lamprey_annotate_together_controlled_up$scaf))
+
