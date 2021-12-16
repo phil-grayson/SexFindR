@@ -6,26 +6,21 @@ Created on Mon Oct 19 16:52:49 2020
 @author: phil
 """
 
-# execute in directory with males/females file and with vcf (e.g., filtered_PASS_fugu_14M_13F.vcf) as $1, and outfile as $2
+# execute with filtered_PASS_sea_lamprey_304_update.vcf as $1, outfile as $2
 
 import csv
 import sys
 
 # get male names to index from the header of vcf
 males=[]
-with open("males.txt") as handle:
-    reader=csv.reader(handle,delimiter='\t')
-    for strLine in reader:
-        if len(strLine)==1:
-            males.append(strLine[0]+"_1.fastq")
-
-# get females the same
 females=[]
-with open("females.txt") as handle:
+with open("sexed_update_for_python.txt") as handle:
     reader=csv.reader(handle,delimiter='\t')
     for strLine in reader:
-        if len(strLine)==1:
-            females.append(strLine[0]+"_1.fastq")
+        if strLine[1] == "M":
+            males.append(strLine[0])
+        if strLine[1] == "F":
+            females.append(strLine[0])
 
 fileout=(sys.argv[2])
 
@@ -37,12 +32,20 @@ with open(sys.argv[1]) as handle:
     for strLine in reader:
         if len(strLine) > 1:
             if strLine[0] == "#CHROM":
-                male_indexes = []
-                female_indexes = []
+                male_indexes=[]
                 for male in males:
-                    male_indexes.append(strLine.index(male))
+                    x=-1
+                    for meta in strLine:
+                        x+=1
+                        if male+"_R1" in meta:
+                            male_indexes.append(x)
+                female_indexes=[]
                 for female in females:
-                    female_indexes.append(strLine.index(female))
+                    x=-1
+                    for meta in strLine:
+                        x+=1
+                        if female+"_R1" in meta:
+                            female_indexes.append(x)
             else:
                 male_genotype = []
                 for index in male_indexes:
