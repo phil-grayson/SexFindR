@@ -15,4 +15,4 @@ Step 2. Sequence-based analyses
   SNP Density
   Fst
   GWAS
-  kmerGWAS
+  kmersGWAS
