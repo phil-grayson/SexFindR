@@ -1,15 +1,15 @@
-========
-kmerGWAS
-========
+=========
+kmersGWAS
+=========
 
-The ``kmerGWAS`` approach described below is possibly the most powerful single analysis within the ``SexFindR`` protocol. Apart from not requiring a reference genome, this single method has proved capable of detecting sex-linked sequences across the entire sex chromosome evolutionary continuum, from highly degenerate mammalian systems to takifugu, which has a single base that is heterozygous is males and homozygous in females.
+The ``kmersGWAS`` approach described below is possibly the most powerful single analysis within the ``SexFindR`` protocol. Apart from not requiring a reference genome, this single method has proved capable of detecting sex-linked sequences across the entire sex chromosome evolutionary continuum, from highly degenerate mammalian systems to takifugu, which has a single base that is heterozygous is males and homozygous in females.
 
-After testing a few other k-mer association algorithms as well as a number of specific options within this algorithm, I settled on the following workflow given its consistent results across the sex chromosome divergence continuum. This protocol requires ``kmerGWAS`` (v0.2 beta; https://github.com/voichek/kmersGWAS), ``ABYSS`` (v2.2.5; https://github.com/bcgsc/abyss), ``plink`` (v 1.07-x86_64; https://www.cog-genomics.org/plink/1.9/), ``R`` and ``blast+`` ( v2.10.0; https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.10.0/). I have presented the necessary steps and configurations for the fugu analysis below, but it should be noted that run times and memory usage vary greatly with genome size, coverage, and sample number. For fewer than 30 samples of fugu, the config provided in the SLURM scripts should be sufficient, but some of the ``kmerGWAS`` steps required days to run on large machines (200 GB+ memory) for lamprey, and other species.
+After testing a few other k-mer association algorithms as well as a number of specific options within this algorithm, I settled on the following workflow given its consistent results across the sex chromosome divergence continuum. This protocol requires ``kmersGWAS`` (v0.2 beta; https://github.com/voichek/kmersGWAS), ``ABYSS`` (v2.2.5; https://github.com/bcgsc/abyss), ``plink`` (v 1.07-x86_64; https://www.cog-genomics.org/plink/1.9/), ``R`` and ``blast+`` ( v2.10.0; https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.10.0/). I have presented the necessary steps and configurations for the fugu analysis below, but it should be noted that run times and memory usage vary greatly with genome size, coverage, and sample number. For fewer than 30 samples of fugu, the config provided in the SLURM scripts should be sufficient, but some of the ``kmersGWAS`` steps required days to run on large machines (200 GB+ memory) for lamprey, and other species.
 
 Directory structure
 -------------------
 
-``kmerGWAS`` requires a specific directory structure and has many separate steps. These are presented below, but more information can be found in the kmerGWAS manual here (https://github.com/voichek/kmersGWAS/blob/master/manual.pdf).
+``kmersGWAS`` requires a specific directory structure and has many separate steps. These are presented below, but more information can be found in the kmersGWAS manual here (https://github.com/voichek/kmersGWAS/blob/master/manual.pdf).
 
 Generally, you want the following:
 
@@ -17,8 +17,8 @@ Generally, you want the following:
 2. Individual directories created within the top level directory corresponding to the base name of each sample (e.g., top level directory contains ``SRR8585991_1.fastq.gz``, ``SRR8585991_2.fastq.gz``, and the ``SRR8585991`` directory)
 3. Within the base name subdirectories (e.g., ``SRR8585991``), there are execution scripts and an ``input_files.txt`` file that contains the paths to the ``fastq`` files (e.g., ``../SRR8585991_1.fastq.gz`` and ``../SRR8585991_2.fastq.gz`` each on their own line).
 
-Running kmerGWAS
-----------------
+Running kmersGWAS
+-----------------
 
 The following is a set of example commands to set up the directory structure for the fugu samples, but these will need to be made specific to your file names, path, etc. Many of these steps were executed on a SLURM system and the execution scripts will need to be modified to match your system as well. This process begins with the ``fastq`` files and one copy of each of the execution scripts in the top level (``fugu_kmerGWAS``) directory. All commands are executed from that top level directory. I have included an example of all necessary text files in the GitHub repository to check against as well.
 
@@ -39,7 +39,7 @@ Once those first jobs complete, you can run the following (again with modificati
     for dir in $(cat clean_dirlist.txt); do cp strand_kmerGWAS.sh $dir; done
     for dir in $(cat clean_dirlist.txt); do cd $dir; sbatch strand_kmerGWAS.sh; cd ..; done
 
-We next need the individuals k-mers list file. As above, these should be generated following the ``kmerGWAS`` manual. An example set of commands used to generate this file for the fugu samples is provided below:
+We next need the individuals k-mers list file. As above, these should be generated following the ``kmersGWAS`` manual. An example set of commands used to generate this file for the fugu samples is provided below:
 
 .. code-block:: console
 
