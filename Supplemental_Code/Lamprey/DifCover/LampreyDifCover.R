@@ -13,13 +13,23 @@ scaffold_lengths <- read_tsv("/Users/phil/Desktop/Apr_May_Lamprey/vgp_scaffold_s
 
 proportion_full <- full_join(together%>% filter(grepl("NC_0",scaf)),scaffold_lengths) %>% mutate(proportion_full = `bases spanned`/length) 
 
+proportion_full <- proportion_full %>% mutate(`log2(Male coverage/Female coverage)` = `log2(Female coverage/Male coverage)`*-1)
+
+s=35
+
 x <- ggscatter(proportion_full, 
-               x = "log2(Female coverage/Male coverage)", 
+               x = "log2(Male coverage/Female coverage)", 
                y = "proportion_full", 
                color = "#9BA4A9", 
+               ylab = "Proportion of chromosome (in region)",
                #palette = c("#9BA4A9", "#34ADE8", "#8F3ED8"), 
-               ylab = "proportion of chromosome",
-               size = 2)  + geom_vline(xintercept =0,linetype="dotted")
+               size = 2)  + geom_vline(xintercept =0,linetype="dotted") +
+                font("legend.title", size = s) +
+                font("legend.text", size = s) +
+                font("xlab", size = s) +
+                font("ylab", size = s) +
+                font("xy.text", size = s)
+
 x
 
 filtered_proportion_full <- proportion_full %>% filter(`log2(Female coverage/Male coverage)` >= 0.7369656 | `log2(Female coverage/Male coverage)` <= -0.7369656) %>% group_by(scaf) %>% mutate("total chromosome proportion with significantly different coverage" = sum(`bases spanned`)/length)
@@ -30,12 +40,19 @@ y <- ggdotchart(filtered_proportion_full,
                 color = "#9BA4A9", 
                 #palette = c("#9BA4A9", "#34ADE8", "#8F3ED8"), 
                 xlab = "Chromosome",
+                ylab = "Proportion of chromosome (significant)",
                 #sorting = "descending", 
                 add = "segments", 
                 add.params = list(color = "lightgray", size = 1), 
                 #group = "Chromosome", 
-                dot.size = 4 ) + theme(axis.text.x=element_blank())
+                dot.size = 4 ) +
+                font("legend.title", size = s) +
+                font("legend.text", size = s) +
+                font("xlab", size = s) +
+                font("ylab", size = s) +
+                font("xy.text", size = s) + theme(axis.text.x=element_blank()) 
 y
 
 x+y
 
+ggsave("lamprey_sex_chromosome.pdf", width = 23, height = 11.13349)

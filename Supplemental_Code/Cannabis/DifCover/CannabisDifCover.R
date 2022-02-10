@@ -13,19 +13,32 @@ scaffold_lengths <- read_tsv("male_ref_scaffold_lengths.txt", col_names = c("sca
 
 proportion <- full_join(together,scaffold_lengths) %>% mutate(Chromosome = ifelse(grepl("Y_",scaf), "Y-region", "Autosome")) %>% mutate(proportion = `bases spanned`/length)
 
+#want to flip axis for consistency between samples
+proportion <- proportion %>% mutate(`log2(Male coverage/Female coverage)` = `log2(Female coverage/Male coverage)`*-1)
+
+#font size (s)
+s = 35
+
 x <- ggscatter(proportion, 
-               x = "log2(Female coverage/Male coverage)", 
+               #x = "log2(Female coverage/Male coverage)", 
+               x = "log2(Male coverage/Female coverage)",
                y = "proportion", 
                color = "Chromosome", 
                palette = c("#9BA4A9", "#34ADE8", "#8F3ED8"), 
-               ylab = "proportion of chromosome",
-               size = 2)  + geom_vline(xintercept =0,linetype="dotted")
+               ylab = "Proportion of chromosome (in region)",
+               size = 2) +
+               geom_vline(xintercept =0,linetype="dotted") +
+               font("legend.title", size = s) +
+               font("legend.text", size = s) +
+               font("xlab", size = s) +
+               font("ylab", size = s) +
+               font("xy.text", size = s)
 
-filtered_proportion <- proportion %>% filter(`log2(Female coverage/Male coverage)` >= 0.7369656 | `log2(Female coverage/Male coverage)` <= -0.7369656) %>% group_by(scaf) %>% mutate("total chromosome proportion with significantly different coverage" = sum(`bases spanned`)/length)
+filtered_proportion <- proportion %>% filter(`log2(Female coverage/Male coverage)` >= 0.7369656 | `log2(Female coverage/Male coverage)` <= -0.7369656) %>% group_by(scaf) %>% mutate("Proportion of chromosome (significant)" = sum(`bases spanned`)/length)
 
 y <- ggdotchart(filtered_proportion, 
                 x = "scaf", 
-                y = "total chromosome proportion with significantly different coverage", 
+                y = "Proportion of chromosome (significant)", 
                 color = "Chromosome", 
                 palette = c("#9BA4A9", "#34ADE8", "#8F3ED8"), 
                 xlab = "Chromosome",
@@ -33,6 +46,13 @@ y <- ggdotchart(filtered_proportion,
                 add = "segments", 
                 add.params = list(color = "lightgray", size = 1), 
                 group = "Chromosome", 
-                dot.size = 4 ) + theme(axis.text.x=element_blank())
+                dot.size = 4 )  +
+                font("legend.title", size = s) +
+                font("legend.text", size = s) +
+                font("xlab", size = s) +
+                font("ylab", size = s) +
+                font("xy.text", size = s) + theme(axis.text.x=element_blank()) 
 
 x+y
+
+ggsave("cannabis_sex_chromosome.pdf", width = 23, height = 11.13349)

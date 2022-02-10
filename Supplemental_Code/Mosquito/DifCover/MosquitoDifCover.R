@@ -12,13 +12,21 @@ scaffold_lengths <- read_tsv("GCF_002204515.2_AaegL5.0_genomic.fna.fai", col_nam
 
 proportion <- full_join(together,scaffold_lengths) %>% mutate(Chromosome = ifelse(scaf=="NC_035107.1", "Y-like", "Autosome")) %>% mutate(proportion = `bases spanned`/length)
 
+s=35
+
 x <- ggscatter(proportion, 
                x = "log2(Male coverage/Female coverage)", 
                y = "proportion", 
                color = "Chromosome", 
+               ylab = "Proportion of chromosome (in region)",
                palette = c("#9BA4A9", "#34ADE8", "#8F3ED8"), 
-               ylab = "proportion of chromosome",
-               size = 2) 
+               size = 2) +
+                geom_vline(xintercept =0,linetype="dotted") +
+                font("legend.title", size = s) +
+                font("legend.text", size = s) +
+                font("xlab", size = s) +
+                font("ylab", size = s) +
+                font("xy.text", size = s)
 x
 
 filtered_proportion <- proportion %>% filter(`log2(Male coverage/Female coverage)` >= 0.7369656 | `log2(Male coverage/Female coverage)` <= -0.7369656) %>% group_by(scaf) %>% mutate("total chromosome proportion with significantly different coverage" = sum(`bases spanned`)/length)
@@ -31,10 +39,17 @@ y <- ggdotchart(filtered_proportion,
                 color = "Chromosome", 
                 palette = c("#9BA4A9", "#34ADE8", "#8F3ED8"), 
                 xlab = "Chromosome",
+                ylab = "Proportion of chromosome (significant)", 
                 #sorting = "descending", 
                 add = "segments", 
                 add.params = list(color = "lightgray", size = 1), 
                 group = "Chromosome", 
-                dot.size = 4 ) + theme(axis.text.x=element_blank())
+                dot.size = 4 )  +
+                font("legend.title", size = s) +
+                font("legend.text", size = s) +
+                font("xlab", size = s) +
+                font("ylab", size = s) +
+                font("xy.text", size = s) + theme(axis.text.x=element_blank()) 
 x+y
 
+ggsave("mosquito_sex_chromosome.pdf", width = 23, height = 11.13349)

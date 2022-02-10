@@ -10,13 +10,23 @@ scaffold_lengths <- read_tsv("chick_scaffold_lengths.txt", col_names = c("scaf",
 
 proportion <- full_join(together,scaffold_lengths) %>% mutate(Chromosome = ifelse(scaf=="NC_006127.5", "Z", ifelse(scaf=="NC_006126.5", "W", "Autosome"))) %>% mutate(proportion = `bases spanned`/length)
 
+proportion <- proportion %>% mutate(`log2(Male coverage/Female coverage)` = `log2(Female coverage/Male coverage)`*-1)
+
+s = 35
+
 x <- ggscatter(proportion, 
-               x = "log2(Female coverage/Male coverage)", 
-               y = "proportion", 
+               x = "log2(Male coverage/Female coverage)",
+               y = "proportion",
                color = "Chromosome", 
-               palette = c("#9BA4A9", "#34ADE8", "#8F3ED8"), 
-               ylab = "proportion of chromosome",
-               size = 2)
+               ylab = "Proportion of chromosome (in region)",
+               palette = c("#9BA4A9", "#FFC107", "#029880"), 
+               size = 2) +
+                geom_vline(xintercept =0,linetype="dotted") +
+                font("legend.title", size = s) +
+                font("legend.text", size = s) +
+                font("xlab", size = s) +
+                font("ylab", size = s) +
+                font("xy.text", size = s)
 
 
 filtered_proportion <- proportion %>% filter(`log2(Female coverage/Male coverage)` >= 0.7369656 | `log2(Female coverage/Male coverage)` <= -0.7369656) %>% group_by(scaf) %>% mutate("total chromosome proportion with significantly different coverage" = sum(`bases spanned`)/length)
@@ -25,12 +35,20 @@ y <- ggdotchart(filtered_proportion,
            x = "scaf", 
            y = "total chromosome proportion with significantly different coverage", 
            color = "Chromosome", 
-           palette = c("#9BA4A9", "#34ADE8", "#8F3ED8"), 
+           palette = c("#9BA4A9", "#FFC107", "#029880"), 
            xlab = "Chromosome",
+           ylab = "Proportion of chromosome (significant)", 
            #sorting = "descending", 
            add = "segments", 
            add.params = list(color = "lightgray", size = 1), 
            group = "Chromosome", 
-           dot.size = 4 ) + theme(axis.text.x=element_blank())
+           dot.size = 4 )  +
+            font("legend.title", size = s) +
+            font("legend.text", size = s) +
+            font("xlab", size = s) +
+            font("ylab", size = s) +
+            font("xy.text", size = s) + theme(axis.text.x=element_blank()) 
 
 x+y
+
+ggsave("chicken_sex_chromosome.pdf", width = 23, height = 11.13349)
