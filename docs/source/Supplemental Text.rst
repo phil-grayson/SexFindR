@@ -22,13 +22,13 @@ Sex chromosomes were initially identified by running DifCover for the male refer
 
 .. image:: images/difcover_monkey.png
 
-* Fig. S9. DifCover analysis of the golden snub-nosed monkey. Each plot shows log2(coverage difference) on the X axis and the proportion of the full chromosome that that specific region occupies on the Y. Only full chromosomes (not scaffolds) are analyzed. The X and Y chromosomes are highlighted in red and teal, respectively, and all autosomes are coloured in yellow.  A: male/female comparison with low male coverage on the X and high male coverage on the Y.  B and C: female/female and male/male comparison, respectively, with no significant differences between X and Y chromosomes between the individuals of the same sex. *
+*Fig. S9. DifCover analysis of the golden snub-nosed monkey. Each plot shows log2(coverage difference) on the X axis and the proportion of the full chromosome that that specific region occupies on the Y. Only full chromosomes (not scaffolds) are analyzed. The X and Y chromosomes are highlighted in red and teal, respectively, and all autosomes are coloured in yellow.  A: male/female comparison with low male coverage on the X and high male coverage on the Y.  B and C: female/female and male/male comparison, respectively, with no significant differences between X and Y chromosomes between the individuals of the same sex.*
 
 Once the sexing was completed, kmersGWAS was carried out using 12 males and 13 females.  The top p-value achieved in this analysis was 1.537e-12 which appeared for 1,688,851 k-mers that were fixed in males and absent in females.  These k-mers were assembled with ABYSS into 73,400 short contigs and blastn was used to map these contigs to the reference genome.  36,699 of these contigs found a position in the assembled genome using blastn, and this position was the Y chromosome for over 90% of the contigs (fig. S10).
 
-.. image:: images/abyss_monkey.pnd
+.. image:: images/abyss_monkey.png
 
-*Fig. S10. kmersGWAS identified the Y chromosome in golden snub-nosed monkey within the class of k-mers that produced the smallest p-value.  These male-specific k-mers map back to the Y chromosome almost exclusively.  *
+*Fig. S10. kmersGWAS identified the Y chromosome in golden snub-nosed monkey within the class of k-mers that produced the smallest p-value.  These male-specific k-mers map back to the Y chromosome almost exclusively.*
 
 Given this result, we have demonstrated that kmersGWAS is able to identify sex-specific across the entire divergence continuum, ranging from a single sex-specific SNP in fugu to a degenerate sex-specific Y chromosome in the golden snub-nosed monkey.  kmersGWAS is a fast and straightforward method that does not rely on a reference genome and it is quite powerful for the detection of sex chromosomes.
 
