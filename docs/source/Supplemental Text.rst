@@ -30,4 +30,18 @@ Once the sexing was completed, kmersGWAS was carried out using 12 males and 13 f
 
 *Fig. S10. kmersGWAS identified the Y chromosome in golden snub-nosed monkey within the class of k-mers that produced the smallest p-value.  These male-specific k-mers map back to the Y chromosome almost exclusively.  *
 
-Given this result, we have demonstrated that kmersGWAS is able to identify sex-specific across the entire divergence continuum, ranging from a single sex-specific SNP in fugu to a degenerate sex-specific Y chromosome in the golden snub-nosed monkey.  kmersGWAS is a fast and straightforward method that does not rely on a reference genome and it is quite powerful for the detection of sex chromosomes.  
+Given this result, we have demonstrated that kmersGWAS is able to identify sex-specific across the entire divergence continuum, ranging from a single sex-specific SNP in fugu to a degenerate sex-specific Y chromosome in the golden snub-nosed monkey.  kmersGWAS is a fast and straightforward method that does not rely on a reference genome and it is quite powerful for the detection of sex chromosomes.
+
+References
+----------
+
+Kamiya T, Kai W, Tasumi S, Oka A, Matsunaga T, Mizuno N, Fujita M, Suetake H, Suzuki S, Hosoya S, et al. 2012. A trans-species missense SNP in Amhr2 is associated with sex determination in the tiger Pufferfish, Takifugu rubripes (Fugu). PLoS Genet. 8(7). doi:10.1371/journal.pgen.1002798.
+
+Kuang WM, Ming C, Li HP, Wu H, Frantz L, Roos C, Zhang YP, Zhang CL, Jia T, Yang JY, et al. 2019. The Origin and Population History of the Endangered Golden Snub-Nosed Monkey (Rhinopithecus roxellana). Mol Biol Evol. 36(3):487–499. doi:10.1093/molbev/msy220.
+
+Matsunaga T, Ieda R, Hosoya S, Kuroyanagi M. 2014. An efficient molecular technique for sexing tiger pufferfish (fugu) and the occurrence of sex reversal in a hatchery population. :933–942. doi:10.1007/s12562-014-0768-0.
+
+Yu L, Wang GD, Ruan J, Chen Y Bin, Yang CP, Cao X, Wu H, Liu YH, Du ZL, Wang XP, et al. 2016. Genomic analysis of snub-nosed monkeys (Rhinopithecus) identifies genes and processes related to high-altitude adaptation. Nat Genet. 48(8):947–952. doi:10.1038/ng.3615.
+
+Zhang H, Hou J, Liu H, Zhu H, Xu G, Xu J. 2020. Adaptive evolution of low-salinity tolerance and hypoosmotic regulation in a euryhaline teleost, Takifugu obscurus. Mar Biol. 167(7):1–12. doi:10.1007/s00227-020-03705-x. https://doi.org/10.1007/s00227-020-03705-x.
+Zhou X, Wang B, Pan Q, Zhang J, Kumar S, Sun X, Liu Z, Pan H, Lin Y, Liu G, et al. 2014. Whole-genome sequencing of the snub-nosed monkey provides insights into folivory and evolutionary history. Nat Genet. 46(12):1303–1310. doi:10.1038/ng.3137.
